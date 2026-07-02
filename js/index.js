@@ -67,5 +67,5 @@ function checkWinner() {
       return "Player2";
     }
   }
-  return null; // ✅ only return null after checking all combinations
+  return null; 
 }
