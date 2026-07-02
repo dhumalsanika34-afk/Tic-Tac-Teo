@@ -1,6 +1,6 @@
 const board=[-1,-1,-1,-1,-1,-1,-1,-1,-1];
 
-let currentPlayer ="player1";
+let currentPlayer ="Player1";
 let gameOver = false;
 
 const renderBoard=()=>{
@@ -20,24 +20,64 @@ const renderBoard=()=>{
     }
   })
 };
+
   const makeMove = (index)=>{
    if(gameOver){
-    alert(" Game is already over. Please rset the game.")
+    alert(" Game is already over. Please reset the game.")
     return;
    }
+
    if(board[index]!==-1){
     alert("Invalid Move")
-    return
+    return;
    }
 
    board[index] = currentPlayer;
-   console.log(board);
-   renderBoard()
 
-   if(currentPlayer ==="Player1"){
-    currentPlayer=="Player2"
+   renderBoard();
+   const winner = checkWinner();
+   gameOver = true;
+   
+   if(winner){
+    alert(`${winner} has won the game!`);
+    return;
+   }
+
+   if(currentPlayer === "Player1"){
+    currentPlayer = "Player2"
    }
    else{
     currentPlayer = "Player1"
    } 
+   document.getElementById("current-player").innerText = `Current Player: ${currentPlayer}`;
   }
+
+function isPlayerPresent(places, player) {
+  const[a,b,c] = places;
+  return(
+    board[a] === player &&
+     board[b] === player &&
+      board[c] === player);
+}
+function checkWinner() {
+  const winningCombinations = [
+    [0,1,2],
+    [3,4,5],
+    [6,7,8],
+    [0,3,6],
+    [1,4,7],
+    [2,5,8],
+    [0,4,8],
+    [2,4,6]
+  ];
+
+for (let combination of winningCombinations) {
+  if(isPlayerPresent(combination, "Player1")){
+    return "Player1";
+  }
+  else if(isPlayerPresent(combination, "Player2")){
+    return "Player2";
+  }
+  return null;
+}
+}
